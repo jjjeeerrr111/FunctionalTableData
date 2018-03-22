@@ -31,6 +31,9 @@ public struct LabelState: Equatable {
 		view.text = state.text
 		view.font = state.font
 		view.textColor = state.color
+		
+		view.widthAnchor.constraint(equalToConstant: 72.0).isActive = true
+		view.heightAnchor.constraint(equalToConstant: 72.0).isActive = true
 	}
 	
 	public static func ==(lhs: LabelState, rhs: LabelState) -> Bool {
