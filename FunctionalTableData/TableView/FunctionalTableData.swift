@@ -797,6 +797,9 @@ extension FunctionalTableData: UITableViewDelegate {
 	}
 	
 	public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        if isInverted {
+            return false
+        }
 		return scrollViewShouldScrollToTop?(scrollView) ?? true
 	}
 	
