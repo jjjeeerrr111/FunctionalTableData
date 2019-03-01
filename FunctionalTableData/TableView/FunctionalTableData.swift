@@ -65,7 +65,18 @@ public class FunctionalTableData: NSObject {
 	
 	private let renderAndDiffQueue: OperationQueue
 	private let name: String
-    private let isInverted: Bool
+    
+    /// Inverts the `UITableView` vertically, which is great for messaging app UIs.
+    ///
+    /// `FunctionalTableData` will take care of flipping any cells so the UI appears
+    /// as normal, but you're required to manage insets accordingly where used.
+    public var isInverted: Bool = false {
+        didSet {
+            guard let tableView = tableView else { return }
+            tableView.transform = isInverted ? CGAffineTransform(rotationAngle: -.pi) : .identity
+        }
+    }
+    
 	/// Enclosing `UITableView` that presents all the `TableSection` data.
 	///
 	/// `FunctionalTableData` will take care of setting its own `UITableViewDelegate` and
@@ -78,10 +89,6 @@ public class FunctionalTableData: NSObject {
 			tableView.rowHeight = UITableView.automaticDimension
 			tableView.tableFooterView = UIView(frame: .zero)
 			tableView.separatorStyle = .none
-            
-            if isInverted {
-                tableView.transform = CGAffineTransform(rotationAngle: -.pi)
-            }
 		}
 	}
 	
@@ -150,9 +157,8 @@ public class FunctionalTableData: NSObject {
 	/// Initializes a FunctionalTableData. To configure its view, provide a UITableView after initialization.
 	///
 	/// - Parameter name: String identifying this instance of FunctionalTableData, useful when several instances are displayed on the same screen. This value also names the queue doing all the rendering work, useful for debugging.
-	public init(name: String? = nil, isInverted: Bool = false) {
+	public init(name: String? = nil) {
 		self.name = name ?? "FunctionalTableDataRenderAndDiff"
-        self.isInverted = isInverted
 		unitTesting = NSClassFromString("XCTestCase") != nil
 		renderAndDiffQueue = OperationQueue()
 		renderAndDiffQueue.name = self.name
