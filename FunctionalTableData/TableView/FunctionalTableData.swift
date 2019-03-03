@@ -606,6 +606,12 @@ extension FunctionalTableData: UITableViewDelegate {
 	}
 	
 	public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if isInverted {
+            guard let header = sections[section].footer else { return nil }
+            let headerView = header.dequeueHeaderFooter(from: tableView)
+            headerView?.transform = CGAffineTransform(rotationAngle: -.pi)
+            return headerView
+        }
 		guard let header = sections[section].header else { return nil }
 		return header.dequeueHeaderFooter(from: tableView)
 	}
