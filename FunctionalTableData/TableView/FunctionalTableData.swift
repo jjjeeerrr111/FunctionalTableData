@@ -809,12 +809,6 @@ extension FunctionalTableData: UITableViewDelegate {
 	}
 	
 	public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        if isInverted, let tableView = tableView {
-            let sectionCount = tableView.numberOfSections
-            let rowCount = tableView.numberOfRows(inSection: sectionCount - 1)
-            tableView.scrollToRow(at: IndexPath(row: rowCount - 1, section: sectionCount - 1), at: .top, animated: true)
-            return false
-        }
 		return scrollViewShouldScrollToTop?(scrollView) ?? true
 	}
 	
